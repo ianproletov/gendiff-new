@@ -2,22 +2,16 @@ import path from 'path';
 import fs from 'fs';
 import gendiff from '../src';
 
-test('json test', () => {
+describe.each(['.json', '.yml', '.ini'])('%s test', (extension) => {
   const fixturesPath = '__fixtures__';
-  const beforePath = path.resolve(__dirname, fixturesPath, 'before.json');
-  const afterPath = path.resolve(__dirname, fixturesPath, 'after.json');
+  const beforeFileName = `before${extension}`;
+  const afterFileName = `after${extension}`;
+  const beforePath = path.resolve(__dirname, fixturesPath, beforeFileName);
+  const afterPath = path.resolve(__dirname, fixturesPath, afterFileName);
   const expectedPath = path.resolve(__dirname, fixturesPath, 'jsonresult');
   const actual = gendiff(beforePath, afterPath);
   const expected = fs.readFileSync(expectedPath, 'utf-8');
-  expect(actual).toEqual(expected);
-});
-
-test('yaml test', () => {
-  const fixturesPath = '__fixtures__';
-  const beforePath = path.resolve(__dirname, fixturesPath, 'before.yml');
-  const afterPath = path.resolve(__dirname, fixturesPath, 'after.yml');
-  const expectedPath = path.resolve(__dirname, fixturesPath, 'jsonresult');
-  const actual = gendiff(beforePath, afterPath);
-  const expected = fs.readFileSync(expectedPath, 'utf-8');
-  expect(actual).toEqual(expected);
+  test('check', () => {
+    expect(actual).toEqual(expected);
+  });
 });
