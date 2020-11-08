@@ -2,25 +2,40 @@
   "name": "gendiff-new",
   "version": "0.0.1",
   "description": "second implementation of the second hexlet project",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest"
+  "main": "dist/index.js",
+  "bin": {
+    "gendiff": "dist/bin/gendiff.js"
   },
+  "scripts": {
+    "test": "jest",
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublishOnly": "npm run build"
+  },
+  "files": ["dist"],
   "keywords": [
     "hexlet",
     "gendiff"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ianproletov/gendiff-new.git"
+  },
   "author": "ian proletov",
   "license": "ISC",
+  "jest": {
+    "testEnvironment": "node"
+  },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
     "@babel/node": "^7.12.6",
     "@babel/preset-env": "^7.12.1",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.6.3",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.6.3"
   },
   "dependencies": {
     "commander": "^6.2.0"
