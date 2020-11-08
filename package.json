@@ -1,0 +1,15 @@
+{
+  "name": "gendiff-new",
+  "version": "0.0.1",
+  "description": "second implementation of the second hexlet project",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "hexlet",
+    "gendiff"
+  ],
+  "author": "ian proletov",
+  "license": "ISC"
+}
