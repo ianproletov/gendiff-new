@@ -5,7 +5,7 @@ import gendiff from '..';
 
 const program = new Command();
 program
-  .version('0.1.0')
+  .version('0.2.0')
   .arguments('<firstConfig> <secondConfig>')
   .description('Compares two configuration files and shows a difference.')
   .option('-f, --format [type]', 'Output format')

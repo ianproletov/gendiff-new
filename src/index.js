@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import _, { has } from 'lodash';
+import parse from './parsers';
 
 const conditions = [
   {
@@ -21,7 +22,7 @@ const conditions = [
   },
 ];
 
-const parse = (data1, data2) => {
+const buildDiff = (data1, data2) => {
   const beforeKeys = Object.keys(data1);
   const afterKeys = Object.keys(data2);
   const keys = _.union(beforeKeys, afterKeys);
@@ -59,11 +60,13 @@ const getDataFromFile = (filepath) => {
 };
 
 const gendiff = (filepath1, filepath2) => {
+  const filetype1 = path.extname(filepath1);
+  const filetype2 = path.extname(filepath2);
   const data1 = getDataFromFile(filepath1);
   const data2 = getDataFromFile(filepath2);
-  const first = JSON.parse(data1);
-  const second = JSON.parse(data2);
-  const diffData = parse(first, second);
+  const first = parse(data1, filetype1);
+  const second = parse(data2, filetype2);
+  const diffData = buildDiff(first, second);
   return render(diffData);
 };
 
