@@ -5,4 +5,4 @@ start:
 publish:
 	npm publish --dry-run
 lint:
-	eslint .
+	npx eslint .
