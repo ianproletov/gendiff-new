@@ -2,6 +2,10 @@ import _ from 'lodash';
 
 const conditions = [
   {
+    check: (key, data1, data2) => _.isObject(data1[key]) && _.isObject(data2[key]),
+    action: (value1, value2, fn) => ({ value: fn(value1, value2), type: 'children' }),
+  },
+  {
     check: (key, data1, data2) => _.has(data1, key) && !_.has(data2, key),
     action: (value1) => ({ value: value1, type: 'deleted' }),
   },
@@ -25,7 +29,7 @@ const buildDiff = (data1, data2) => {
   const keys = _.union(beforeKeys, afterKeys);
   return keys.map((key) => {
     const { action } = conditions.find(({ check }) => check(key, data1, data2));
-    return { key, ...action(data1[key], data2[key]) };
+    return { key, ...action(data1[key], data2[key], buildDiff) };
   });
 };
 
