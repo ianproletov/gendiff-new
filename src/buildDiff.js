@@ -3,7 +3,7 @@ import _ from 'lodash';
 const conditions = [
   {
     check: (key, data1, data2) => _.isObject(data1[key]) && _.isObject(data2[key]),
-    action: (value1, value2, fn) => ({ value: fn(value1, value2), type: 'children' }),
+    action: (value1, value2, buildDiff) => ({ children: buildDiff(value1, value2), type: 'children' }),
   },
   {
     check: (key, data1, data2) => _.has(data1, key) && !_.has(data2, key),

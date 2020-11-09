@@ -15,26 +15,19 @@ const stringify = (value, deep) => {
 };
 
 const typeMap = {
-  equal: (key, value, updatedValue, deep) => `${getIdent(deep)}  ${key}: ${stringify(value, deep + 1)}`,
-  deleted: (key, value, updatedValue, deep) => `${getIdent(deep)}- ${key}: ${stringify(value, deep + 1)}`,
-  added: (key, value, updatedValue, deep) => `${getIdent(deep)}+ ${key}: ${stringify(value, deep + 1)}`,
-  updated: (key, value, updatedValue, deep) => [
+  equal: ({ key, value }, deep) => `${getIdent(deep)}  ${key}: ${stringify(value, deep + 1)}`,
+  deleted: ({ key, value }, deep) => `${getIdent(deep)}- ${key}: ${stringify(value, deep + 1)}`,
+  added: ({ key, value }, deep) => `${getIdent(deep)}+ ${key}: ${stringify(value, deep + 1)}`,
+  updated: ({ key, value, updatedValue }, deep) => [
     `${getIdent(deep)}+ ${key}: ${stringify(updatedValue, deep + 1)}`,
     `${getIdent(deep)}- ${key}: ${stringify(value, deep + 1)}`,
   ],
-  children: (key, value, updatedValue, deep, render) => `${getIdent(deep)}  ${key}: ${render(value, deep + 1)}`,
+  children: ({ key, children }, deep, render) => `${getIdent(deep)}  ${key}: ${render(children, deep + 1)}`,
 };
 
 const render = (data, deep = 0) => {
-  const parsedItems = _.flatten(data.map((item) => {
-    const {
-      key,
-      value,
-      updatedValue,
-      type,
-    } = item;
-    return typeMap[type](key, value, updatedValue, deep, render);
-  }))
+  const parsedItems = _.flatten(data
+    .map((item) => typeMap[item.type](item, deep, render)))
     .map((parsedItem) => `${parsedItem}`);
   return `{\n${parsedItems.join('\n')}\n${getPostIdent(deep)}}`;
 };
