@@ -1,6 +1,9 @@
 import _ from 'lodash';
 
 const bar = ' ';
+const equalBar = ' ';
+const deleteBar = '-';
+const updatedBar = '+';
 
 const getIdent = (deep) => bar.repeat(deep * 4 + 2);
 
@@ -14,13 +17,15 @@ const stringify = (value, deep) => {
   return `{\n${result.join('\n')}\n${getPostIdent(deep)}}`;
 };
 
+const getString = (key, value, deep, sign) => `${getIdent(deep)}${sign} ${key}: ${stringify(value, deep + 1)}`;
+
 const typeMap = {
-  equal: ({ key, value }, deep) => `${getIdent(deep)}  ${key}: ${stringify(value, deep + 1)}`,
-  deleted: ({ key, value }, deep) => `${getIdent(deep)}- ${key}: ${stringify(value, deep + 1)}`,
-  added: ({ key, value }, deep) => `${getIdent(deep)}+ ${key}: ${stringify(value, deep + 1)}`,
+  equal: ({ key, value }, deep) => getString(key, value, deep, equalBar),
+  deleted: ({ key, value }, deep) => getString(key, value, deep, deleteBar),
+  added: ({ key, value }, deep) => getString(key, value, deep, updatedBar),
   updated: ({ key, value, updatedValue }, deep) => [
-    `${getIdent(deep)}+ ${key}: ${stringify(updatedValue, deep + 1)}`,
-    `${getIdent(deep)}- ${key}: ${stringify(value, deep + 1)}`,
+    getString(key, updatedValue, deep, updatedBar),
+    getString(key, value, deep, deleteBar),
   ],
   children: ({ key, children }, deep, render) => `${getIdent(deep)}  ${key}: ${render(children, deep + 1)}`,
 };
