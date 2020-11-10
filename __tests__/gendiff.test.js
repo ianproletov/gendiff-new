@@ -7,12 +7,12 @@ describe.each(['simple', 'nested'])('test %s files', (complexity) => {
   describe.each(['.json', '.yml', '.ini'])('%s test', (extension) => {
     const beforeFileName = `before${extension}`;
     const afterFileName = `after${extension}`;
-    describe.each(['default'])('test %s render', (type) => {
+    describe.each(['primary', 'plain'])('test %s render', (type) => {
       const beforePath = path.resolve(__dirname, fixturesPath, beforeFileName);
       const afterPath = path.resolve(__dirname, fixturesPath, afterFileName);
       const result = `result${type}`;
       const expectedPath = path.resolve(__dirname, fixturesPath, result);
-      const actual = gendiff(beforePath, afterPath);
+      const actual = gendiff(beforePath, afterPath, type);
       const expected = fs.readFileSync(expectedPath, 'utf-8');
       test('check', () => {
         expect(actual).toEqual(expected);

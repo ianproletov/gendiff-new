@@ -1,6 +1,6 @@
 {
   "name": "gendiff-new",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "second implementation of the second hexlet project",
   "main": "dist/index.js",
   "bin": {
